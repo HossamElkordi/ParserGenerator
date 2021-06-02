@@ -60,7 +60,8 @@ void AmbiguitySolver::solveImmediateLeftRecursion(string lhs, set<vector<string>
         for(auto i = oldSet.begin(); i != oldSet.end(); ++i){
             vector<string> temp = *i;
             temp.push_back(newLHS);
-            temp.erase(find(temp.begin(), temp.end(), "$"));
+            auto it = find(temp.begin(), temp.end(), "$");
+            if(it != temp.end()) temp.erase(it);
             oldSet.erase(i);
             oldSet.insert(temp);
         }
