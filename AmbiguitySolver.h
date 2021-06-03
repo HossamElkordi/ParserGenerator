@@ -17,7 +17,7 @@ class AmbiguitySolver{
         map<string, set<vector<string>>> *productions;
         vector<string> *terminals;
         vector<string> *nonTerminals;
-
+        bool existsnt(string in);
         void solveImmediateLeftRecursion(string lhs, set<vector<string>> *rhs, vector<string> *newProds);
         vector<string> concatLists(vector<string> a, vector<string> b);
 
