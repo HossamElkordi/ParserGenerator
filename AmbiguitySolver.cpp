@@ -105,6 +105,7 @@ void AmbiguitySolver::solveLeftFactoring() {
                     ++k;
                 }
                 (*nonTerminals).insert((*nonTerminals).begin()+k+1,ttl);
+                i=--(productions->begin());
             }
         }
     }
@@ -114,9 +115,7 @@ void AmbiguitySolver::solveLeftFactoring() {
 void AmbiguitySolver::solveLeftRecursion() {
     vector<string> newProds;
     for(auto i = nonTerminals->begin(); i != nonTerminals->end(); ++i){
-        if(i->empty()) continue;
         for(auto j = nonTerminals->begin(); j != i; ++j){
-            if(j->empty()) continue;
             for(auto k = (*productions)[*i].begin(); k != (*productions)[*i].end(); ++k){
                 if(*j == k->front()){
                     vector<string> temp = *k;
