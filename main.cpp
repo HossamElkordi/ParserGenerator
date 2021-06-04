@@ -1,6 +1,7 @@
 #include <iostream>
 #include "CFGFileParser.h"
 #include "AmbiguitySolver.h"
+#include "FollowSetGenerator.h"
 
 void printList(vector<string> l){
     for(auto i : l){
@@ -58,6 +59,21 @@ int main() {
         cout << "\n";
     }
     */
+
+
+    // Testing Follow Set Generator
+    cout << "\n\n Let's test FSG\n";
+    FollowSetGenerator fsg(&prods, &ter, &nonter);
+    for (int i = 0; i < nonter.size(); i++) {
+        string nonTerminal = nonter.at(i);
+        set<string> follow = fsg.getFollowSet(&nonTerminal);
+        cout << "Non Terminal : " << nonTerminal << "\t, follow set: " << endl;
+        for (auto s : follow) {
+            cout << s << "\t";
+        }
+        cout << "\n";
+
+    }
 
     return 0;
 }

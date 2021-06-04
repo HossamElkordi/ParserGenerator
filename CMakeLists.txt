@@ -3,4 +3,4 @@ project(ParserGenerator)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(ParserGenerator main.cpp CFGFileParser.cpp CFGFileParser.h AmbiguitySolver.cpp AmbiguitySolver.h)
+add_executable(ParserGenerator main.cpp CFGFileParser.cpp CFGFileParser.h AmbiguitySolver.cpp AmbiguitySolver.h FollowSetGenerator.cpp FollowSetGenerator.h)
