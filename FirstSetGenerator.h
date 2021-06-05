@@ -10,10 +10,10 @@
 #include <vector>
 #include <string>
 #include <bits/stdc++.h>
-
+#include <algorithm>
 using namespace std;
 
 map<string, vector<pair<string, vector<string>>>> FirstSet(map<string, set<vector<string>>> productions,
-vector<string> nonTerminals, set<string> input);
+vector<string> nonTerminals, vector<string> input);
 
 #endif //PARSERGENERATOR_FIRSTSETGENERATOR_H

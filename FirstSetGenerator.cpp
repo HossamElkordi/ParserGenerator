@@ -7,7 +7,7 @@
 
 
 map<string, vector<pair<string, vector<string>>>> FirstSet(map<string, set<vector<string>>> productions,
-                                                           vector<string> nonTerminals, set<string> input){
+                                                           vector<string> nonTerminals, vector<string> input){
 
     // Assuming that nonTerminals are ordered
     vector<string> reversed = nonTerminals;
@@ -23,7 +23,7 @@ map<string, vector<pair<string, vector<string>>>> FirstSet(map<string, set<vecto
             string t = v[0];
             if(t.empty()){ // it is epsilon
                 temp.emplace_back("", v);
-            }else if(input.find(t) != input.end()){
+            }else if(std::find(input.begin(),input.end(),t) != input.end()){
                 temp.emplace_back(t, v);
             }else{
                 for(s3 = first[t].begin(); s3 != first[t].end(); ++s3){

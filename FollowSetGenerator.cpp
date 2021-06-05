@@ -12,9 +12,9 @@ FollowSetGenerator::FollowSetGenerator(map<string, set<vector<string>>> *prods, 
     generateFollowSets();
 }
 
-set<string> FollowSetGenerator::getFollowSet(string *nonTerminal) {
+set<string> FollowSetGenerator::getFollowSet(const string& nonTerminal) {
 
-    return follow.at(*nonTerminal);
+    return follow.at(nonTerminal);
 }
 
 void FollowSetGenerator::generateFollowSets() {

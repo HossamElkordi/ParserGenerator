@@ -23,7 +23,7 @@ private:
 
 public:
     FollowSetGenerator(map<string, set<vector<string>>> *prods, vector<string> *ters, vector<string> *nonTers);
-    set<string> getFollowSet(string *nonTerminal);
+    set<string> getFollowSet(const string& nonTerminal);
 };
 
 #endif //PARSERGENERATOR_FOLLOWSETGENERATOR_H

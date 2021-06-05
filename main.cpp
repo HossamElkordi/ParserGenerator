@@ -2,6 +2,8 @@
 #include "CFGFileParser.h"
 #include "AmbiguitySolver.h"
 #include "FollowSetGenerator.h"
+#include "TableGenerator.h"
+#include "FirstSetGenerator.h"
 
 void printList(vector<string> l){
     for(auto i : l){
@@ -66,14 +68,19 @@ int main() {
     FollowSetGenerator fsg(&prods, &ter, &nonter);
     for (int i = 0; i < nonter.size(); i++) {
         string nonTerminal = nonter.at(i);
-        set<string> follow = fsg.getFollowSet(&nonTerminal);
+        set<string> follow = fsg.getFollowSet(nonTerminal);
         cout << "Non Terminal : " << nonTerminal << "\t, follow set: " << endl;
         for (auto s : follow) {
             cout << s << "\t";
         }
         cout << "\n";
-
     }
-
+    vector<vector<string>> table=GenerateTable(FirstSet(prods,nonter,ter),fsg,ter,nonter);
+    for(vector<string>temp:table)
+    {
+        for(const string& a:temp)
+            cout<<a<<" ";
+        cout<<endl;
+    }
     return 0;
 }
