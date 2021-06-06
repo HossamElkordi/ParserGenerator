@@ -11,6 +11,20 @@ void printList(vector<string> l){
     }
 }
 
+// Function to print Follow Set of every non-terminal for testing
+void printFollowSets(FollowSetGenerator fsg, vector<string> nonter) {
+    cout << "\n\nFollow Sets:\n";
+    for (int i = 0; i < nonter.size(); i++) {
+        string nonTerminal = nonter.at(i);
+        set<string> follow = fsg.getFollowSet(nonTerminal);
+        cout << "Non Terminal : " << nonTerminal << "\t, Follow Set: " << endl;
+        for (auto s : follow) {
+            cout << s << "\t";
+        }
+        cout << "\n";
+    }
+}
+
 int main() {
 //Test input parser
     CFGFileParser cfg;
@@ -62,25 +76,17 @@ int main() {
     }
     */
 
-
-    // Testing Follow Set Generator
-    cout << "\n\n Let's test FSG\n";
     FollowSetGenerator fsg(&prods, &ter, &nonter);
-    for (int i = 0; i < nonter.size(); i++) {
-        string nonTerminal = nonter.at(i);
-        set<string> follow = fsg.getFollowSet(nonTerminal);
-        cout << "Non Terminal : " << nonTerminal << "\t, follow set: " << endl;
-        for (auto s : follow) {
-            cout << s << "\t";
-        }
-        cout << "\n";
-    }
+
+    printFollowSets(fsg, nonter);
+
+    /*
     vector<vector<string>> table=GenerateTable(FirstSet(prods,nonter,ter),fsg,ter,nonter);
     for(vector<string>temp:table)
     {
         for(const string& a:temp)
             cout<<a<<" ";
         cout<<endl;
-    }
+    }*/
     return 0;
 }
