@@ -16,11 +16,14 @@ void CheckInput(Token token,vector<string>Terminals,vector<string>NonTerminals,v
     stack.push(NonTerminals.at(0));
     vector<string> epsilon;
     epsilon.emplace_back("$");
+    string answer;
     while (!stack.empty())
     {
         //Got a match
         if(stack.top()==token.GetType())
         {
+            cout<<"matched "<<token.GetLexeme()<<endl;
+            answer+=stack.top();
             stack.pop();
             token=NextToken.getNextToken();
         }
@@ -31,7 +34,7 @@ void CheckInput(Token token,vector<string>Terminals,vector<string>NonTerminals,v
             if(Table.at(NonTerminalRows[stack.top()]).at(TerminalColumns[token.GetLexeme()]).empty())
             {
                 cout<<"Error: No path from "<<stack.top()<<" to "<<token.GetLexeme()<<endl;
-                cout<<"discard "<<token.GetLexeme();
+                cout<<"discard "<<token.GetLexeme()<<endl;
                 token=NextToken.getNextToken();
             }
             //Going to epsilon
@@ -49,7 +52,9 @@ void CheckInput(Token token,vector<string>Terminals,vector<string>NonTerminals,v
         {
             cout<<"Error: found "<<stack.top()<<" instead of "<<token.GetLexeme().at(0)<<endl;
             cout<<"inserted"<<endl;
+            answer += stack.top();
             stack.pop();
         }
     }
+    cout<<"inserted string"<<answer<<"is accepted"<<endl;
 }
