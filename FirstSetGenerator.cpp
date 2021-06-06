@@ -21,8 +21,8 @@ map<string, vector<pair<string, vector<string>>>> FirstSet(map<string, set<vecto
         for(s2 = productions[*s].begin(); s2 != productions[*s].end(); ++s2){
             vector<string> v = (*s2);
             string t = v[0];
-            if(t.empty()){ // it is epsilon
-                temp.emplace_back("", v);
+            if(t == "$"){ // it is epsilon
+                temp.emplace_back("$", v);
             }else if(std::find(input.begin(),input.end(),t) != input.end()){
                 temp.emplace_back(t, v);
             }else{
