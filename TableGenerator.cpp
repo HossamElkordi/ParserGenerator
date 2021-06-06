@@ -3,18 +3,19 @@
 //
 
 #include "TableGenerator.h"
-vector<vector<string >>GenerateTable(const map<string, vector<pair<string, vector<string>>>>& First,  FollowSetGenerator Follow,vector<string>Terminals,vector<string>NonTerminals)
+vector<vector<vector<string>>> GenerateTable(const map<string, vector<pair<string, vector<string>>>>& First,  FollowSetGenerator Follow,vector<string>Terminals,vector<string>NonTerminals)
 {
     map<string,int>NonTerminalRows,TerminalColumns;
     for(int i=0;i<Terminals.size();++i)
         TerminalColumns[Terminals.at(i)] = i;
     for(int i=0;i<NonTerminals.size();++i)
         NonTerminalRows[NonTerminals.at(i)] = i;
-    vector<vector<string>>answer;
+    vector<vector<vector<string>>>answer;
     for(int i=0;i<NonTerminalRows.size();++i)
     {
-        vector<string>temp;
-        temp.assign(TerminalColumns.size(),"");
+        vector<vector<string>>temp;
+        vector<string>d;
+        temp.assign(TerminalColumns.size(),d);
         answer.push_back(temp);
     }
     for (auto const& iterator : First)
@@ -22,13 +23,10 @@ vector<vector<string >>GenerateTable(const map<string, vector<pair<string, vecto
         for(const pair<string,vector<string>>& NonTerminalPair:iterator.second)
         {
             if(answer[NonTerminalRows[iterator.first]][TerminalColumns[NonTerminalPair.first]].empty())
-            {
-                for(const string& GoTo:NonTerminalPair.second)
-                    answer[NonTerminalRows[iterator.first]][TerminalColumns[NonTerminalPair.first]] += GoTo;
-            }
+                answer[NonTerminalRows[iterator.first]][TerminalColumns[NonTerminalPair.first]]=NonTerminalPair.second;
             else
             {
-                vector<vector<string>> error;
+                vector<vector<vector<string>>> error;
                 return error;
             }
         }
@@ -37,12 +35,15 @@ vector<vector<string >>GenerateTable(const map<string, vector<pair<string, vecto
     {
         for(const string& Terminal:Follow.getFollowSet(iterator.first))
         {
-            cout<<NonTerminalRows[iterator.first]<<" "<<TerminalColumns[Terminal]<<endl;
             if(answer[NonTerminalRows[iterator.first]][TerminalColumns[Terminal]].empty())
-                answer[NonTerminalRows[iterator.first]][TerminalColumns[Terminal]]="$";
+            {
+                vector<string>temp;
+                temp.emplace_back("$");
+                answer[NonTerminalRows[iterator.first]][TerminalColumns[Terminal]]=temp;
+            }
             else
             {
-                vector<vector<string>> error;
+                vector<vector<vector<string>>> error;
                 return error;
             }
         }

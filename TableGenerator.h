@@ -8,5 +8,5 @@
 #include "FollowSetGenerator.h"
 using namespace std;
 
-vector<vector<string >>GenerateTable(const map<string, vector<pair<string, vector<string>>>>& First,  FollowSetGenerator Follow,vector<string>Terminals,vector<string>NonTerminals);
+vector<vector<vector<string>>> GenerateTable(const map<string, vector<pair<string, vector<string>>>>& First,  FollowSetGenerator Follow,vector<string>Terminals,vector<string>NonTerminals);
 #endif //PARSERGENERATOR_TABLEGENERATOR_H

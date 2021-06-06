@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-add_executable(ParserGenerator main.cpp CFGFileParser.cpp CFGFileParser.h AmbiguitySolver.cpp AmbiguitySolver.h FollowSetGenerator.cpp FollowSetGenerator.h FirstSetGenerator.cpp FirstSetGenerator.h TableGenerator.cpp TableGenerator.h)
+add_executable(ParserGenerator main.cpp CFGFileParser.cpp CFGFileParser.h AmbiguitySolver.cpp AmbiguitySolver.h FollowSetGenerator.cpp FollowSetGenerator.h FirstSetGenerator.cpp FirstSetGenerator.h TableGenerator.cpp TableGenerator.h InputChecker.cpp InputChecker.h)
 
 include(FindPkgConfig)
 find_package(LexicalAnalyzerGenerator REQUIRED)
