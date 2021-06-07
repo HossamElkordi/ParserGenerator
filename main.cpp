@@ -5,6 +5,7 @@
 #include "TableGenerator.h"
 #include "FirstSetGenerator.h"
 #include "LexicalAnalyzer.h"
+#include "InputChecker.h"
 
 void printList(vector<string> l){
     for(auto i : l){
@@ -121,4 +122,6 @@ int main(int argc, char** argv){
 
 //    Create the LL(1) parsing table
     vector<vector<vector<string>>> table = GenerateTable(first, fsg, ters, nonTers);
+    CheckInput(//3ayez el token hena
+     ,ters,nonTers,table);
 }
