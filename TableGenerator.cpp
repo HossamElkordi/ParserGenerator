@@ -6,8 +6,9 @@
 vector<vector<vector<string>>> GenerateTable(const map<string, vector<pair<string, vector<string>>>>& First,  FollowSetGenerator Follow,vector<string>Terminals,vector<string>NonTerminals)
 {
     map<string,int>NonTerminalRows,TerminalColumns;
-    for(int i=0;i<Terminals.size();++i)
-        TerminalColumns[Terminals.at(i)] = i;
+    TerminalColumns["$"]=0;
+    for(int i=1;i<=Terminals.size();++i)
+        TerminalColumns[Terminals.at(i-1)] = i;
     for(int i=0;i<NonTerminals.size();++i)
         NonTerminalRows[NonTerminals.at(i)] = i;
     vector<vector<vector<string>>>answer;
@@ -35,11 +36,11 @@ vector<vector<vector<string>>> GenerateTable(const map<string, vector<pair<strin
     {
         for(const string& Terminal:Follow.getFollowSet(iterator.first))
         {
-            if(answer[NonTerminalRows[iterator.first]][TerminalColumns[Terminal]].empty())
+            if(answer[iterator.second][TerminalColumns[Terminal]].empty())
             {
                 vector<string>temp;
                 temp.emplace_back("$");
-                answer[NonTerminalRows[iterator.first]][TerminalColumns[Terminal]]=temp;
+                answer[iterator.second][TerminalColumns[Terminal]]=temp;
             }
             else
             {
