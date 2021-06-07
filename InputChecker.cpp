@@ -3,6 +3,14 @@
 //
 
 #include "InputChecker.h"
+void WriteResult(string result)
+{
+    fstream my_file;
+    my_file.open("output.txt", ios::out);
+    my_file << result;
+    my_file.close();
+}
+
 void CheckInput(Token token,vector<string>Terminals,vector<string>NonTerminals,vector<vector<vector<string>>>Table)
 {
     InputLanguageParser NextToken;
@@ -17,12 +25,14 @@ void CheckInput(Token token,vector<string>Terminals,vector<string>NonTerminals,v
     vector<string> epsilon;
     epsilon.emplace_back("$");
     string answer;
+    string output;
+    bool error= false;
     while (!stack.empty())
     {
         //Got a match
         if(stack.top()==token.GetType())
         {
-            cout<<"matched "<<token.GetLexeme()<<endl;
+            output +="matched "+token.GetLexeme()+"\n";
             answer+=stack.top();
             stack.pop();
             token=NextToken.getNextToken();
@@ -33,8 +43,9 @@ void CheckInput(Token token,vector<string>Terminals,vector<string>NonTerminals,v
             //No path
             if(Table.at(NonTerminalRows[stack.top()]).at(TerminalColumns[token.GetLexeme()]).empty())
             {
-                cout<<"Error: No path from "<<stack.top()<<" to "<<token.GetLexeme()<<endl;
-                cout<<"discard "<<token.GetLexeme()<<endl;
+                error = true;
+                output+="Error: No path from "+stack.top()+" to "+token.GetLexeme()+"\n";
+                output+="discard "+token.GetLexeme()+"\n";
                 token=NextToken.getNextToken();
             }
             //Going to epsilon
@@ -50,11 +61,17 @@ void CheckInput(Token token,vector<string>Terminals,vector<string>NonTerminals,v
         }//Top of stack is terminal and not matching
         else
         {
-            cout<<"Error: found "<<stack.top()<<" instead of "<<token.GetLexeme().at(0)<<endl;
-            cout<<"inserted"<<endl;
+            error = true;
+            output+="Error: found "+stack.top()+" instead of "+token.GetLexeme().at(0)+"\n";
+            output+="inserted"+stack.top()+"\n";
             answer += stack.top();
             stack.pop();
         }
     }
-    cout<<"inserted string"<<answer<<"is accepted"<<endl;
+    if(!error)
+        output+="inserted string is correct & accepted";
+    else
+        output+= "inserted string should have been "+answer;
+    WriteResult(output);
 }
+
