@@ -122,6 +122,5 @@ int main(int argc, char** argv){
 
 //    Create the LL(1) parsing table
     vector<vector<vector<string>>> table = GenerateTable(first, fsg, ters, nonTers);
-    CheckInput(//3ayez el token hena
-     ,ters,nonTers,table);
+    CheckInput(InputLanguageParser(,dfa,accepted,start),ters,nonTers,table);
 }

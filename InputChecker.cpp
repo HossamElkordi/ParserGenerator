@@ -3,7 +3,7 @@
 //
 
 #include "InputChecker.h"
-void WriteResult(string result)
+void WriteResult(const string& result)
 {
     fstream my_file;
     my_file.open("output.txt", ios::out);
@@ -11,9 +11,9 @@ void WriteResult(string result)
     my_file.close();
 }
 
-void CheckInput(Token token,vector<string>Terminals,vector<string>NonTerminals,vector<vector<vector<string>>>Table)
+void CheckInput(InputLanguageParser NextToken,vector<string>Terminals,vector<string>NonTerminals,vector<vector<vector<string>>>Table)
 {
-    InputLanguageParser NextToken;
+    Token token = NextToken.getNextToken();
     map<string,int>NonTerminalRows,TerminalColumns;
     for(int i=0;i<Terminals.size();++i)
         TerminalColumns[Terminals.at(i)] = i;
