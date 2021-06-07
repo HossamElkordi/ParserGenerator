@@ -122,5 +122,9 @@ int main(int argc, char** argv){
 
 //    Create the LL(1) parsing table
     vector<vector<vector<string>>> table = GenerateTable(first, fsg, ters, nonTers);
-    CheckInput(InputLanguageParser(,dfa,accepted,start),ters,nonTers,table);
+
+//    Create The Tokens Provider
+    InputLanguageParser ilp(progPath, lex.getDfaGraph(), lex.getDfaAccepted(), lex.getStartState());
+
+    CheckInput(&ilp, ters, nonTers, table, outputPath);
 }

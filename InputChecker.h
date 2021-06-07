@@ -14,5 +14,5 @@
 
 using namespace std;
 
-void CheckInput(InputLanguageParser NextToken,vector<string>Terminals,vector<string>NonTerminals,vector<vector<string>>Table);
+void CheckInput(InputLanguageParser* NextToken,vector<string>Terminals,vector<string>NonTerminals,vector<vector<vector<string>>>Table, string outPath);
 #endif //PARSERGENERATOR_INPUTCHECKER_H

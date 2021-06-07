@@ -3,17 +3,17 @@
 //
 
 #include "InputChecker.h"
-void WriteResult(const string& result)
+void WriteResult(const string& result, string outPath)
 {
     fstream my_file;
-    my_file.open("output.txt", ios::out);
+    my_file.open(outPath, ios::out);
     my_file << result;
     my_file.close();
 }
 
-void CheckInput(InputLanguageParser NextToken,vector<string>Terminals,vector<string>NonTerminals,vector<vector<vector<string>>>Table)
+void CheckInput(InputLanguageParser* NextToken,vector<string>Terminals,vector<string>NonTerminals,vector<vector<vector<string>>>Table, string outPath)
 {
-    Token token = NextToken.getNextToken();
+    Token token = NextToken->getNextToken();
     map<string,int>NonTerminalRows,TerminalColumns;
     for(int i=0;i<Terminals.size();++i)
         TerminalColumns[Terminals.at(i)] = i;
@@ -35,7 +35,7 @@ void CheckInput(InputLanguageParser NextToken,vector<string>Terminals,vector<str
             output +="matched "+token.GetLexeme()+"\n";
             answer+=stack.top();
             stack.pop();
-            token=NextToken.getNextToken();
+            token=NextToken->getNextToken();
         }
         //no match
         else if(NonTerminalRows.find(stack.top()) != NonTerminalRows.end())
@@ -46,7 +46,7 @@ void CheckInput(InputLanguageParser NextToken,vector<string>Terminals,vector<str
                 error = true;
                 output+="Error: No path from "+stack.top()+" to "+token.GetLexeme()+"\n";
                 output+="discard "+token.GetLexeme()+"\n";
-                token=NextToken.getNextToken();
+                token=NextToken->getNextToken();
             }
             //Going to epsilon
             else if(Table.at(NonTerminalRows[stack.top()]).at(TerminalColumns[token.GetLexeme()])==epsilon)
@@ -72,6 +72,6 @@ void CheckInput(InputLanguageParser NextToken,vector<string>Terminals,vector<str
         output+="inserted string is correct & accepted";
     else
         output+= "inserted string should have been "+answer;
-    WriteResult(output);
+    WriteResult(output, outPath);
 }
 
