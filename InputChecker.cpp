@@ -25,55 +25,40 @@ void CheckInput(InputLanguageParser* NextToken,vector<string>Terminals,vector<st
     stack.push(NonTerminals.at(0));
     vector<string> epsilon;
     epsilon.emplace_back("$");
-    string answer;
-    string output;
-    bool error= false;
+    string answer="METHOD_BODY\n";
     while (!stack.empty())
     {
         //Got a match
-        if(stack.top()==token.GetType())
+        if(stack.top()==token.GetType() || stack.top()==token.GetLexeme())
         {
-            output +="matched "+token.GetLexeme()+"\n";
-            answer+=stack.top();
             stack.pop();
-            token=NextToken->getNextToken();
+            if(token.GetLexeme()!="$")
+                token=NextToken->getNextToken();
         }
         //no match
         else if(NonTerminalRows.find(stack.top()) != NonTerminalRows.end())
         {
             //No path
-            if(Table.at(NonTerminalRows[stack.top()]).at(TerminalColumns[token.GetLexeme()]).empty())
-            {
-                error = true;
-                output+="Error: No path from "+stack.top()+" to "+token.GetLexeme()+"\n";
-                output+="discard "+token.GetLexeme()+"\n";
+            if(token.GetLexeme()!="$" && Table.at(NonTerminalRows[stack.top()]).at(TerminalColumns[token.GetType()]).empty())
                 token=NextToken->getNextToken();
-            }
             //Going to epsilon
-            else if(Table[NonTerminalRows[stack.top()]][TerminalColumns[token.GetLexeme()]]==epsilon)
+            else if(Table[NonTerminalRows[stack.top()]][TerminalColumns[token.GetType()]]==epsilon)
                 stack.pop();
             //Another production
             else
             {
                 string LastTop=stack.top();
                 stack.pop();
-                for(int i = Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetLexeme()]).size()-1; i >= 0 ; --i)
-                    stack.push(Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetLexeme()]).at(i));
+                for(int i = Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).size()-1; i >= 0 ; --i)
+                    stack.push(Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).at(i));
+                for(int i = 0; i < Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).size() ; ++i)
+                    answer+=Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).at(i)+" ";
+                answer+="\n";
             }
         }//Top of stack is terminal and not matching
         else
-        {
-            error = true;
-            output+="Error: found "+stack.top()+" instead of "+token.GetLexeme().at(0)+"\n";
-            output+="inserted"+stack.top()+"\n";
-            answer += stack.top();
             stack.pop();
-        }
     }
-    if(!error)
-        output+="inserted string is correct & accepted";
-    else
-        output+= "inserted string should have been "+answer;
-    WriteResult(output, outPath);
+    WriteResult(answer, outPath);
 }
 
