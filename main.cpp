@@ -127,4 +127,6 @@ int main(int argc, char** argv){
     InputLanguageParser ilp(progPath, lex.getDfaGraph(), lex.getDfaAccepted(), lex.getStartState());
 
     CheckInput(&ilp, ters, nonTers, table, outputPath);
+
+    return 0;
 }
