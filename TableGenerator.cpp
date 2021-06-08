@@ -19,12 +19,17 @@ vector<vector<vector<string>>> GenerateTable(const map<string, vector<pair<strin
         temp.assign(TerminalColumns.size(),d);
         answer.push_back(temp);
     }
+    vector<string>nonTerminalsForFollow;
     for (auto const& iterator : First)
     {
         for(const pair<string,vector<string>>& NonTerminalPair:iterator.second)
         {
             if(answer[NonTerminalRows[iterator.first]][TerminalColumns[NonTerminalPair.first]].empty())
+            {
                 answer[NonTerminalRows[iterator.first]][TerminalColumns[NonTerminalPair.first]]=NonTerminalPair.second;
+                if(find(NonTerminalPair.second.begin(),NonTerminalPair.second.end(),"$")!=NonTerminalPair.second.end())
+                    nonTerminalsForFollow.push_back(iterator.first);
+            }
             else
             {
                 vector<vector<vector<string>>> error;
@@ -32,20 +37,15 @@ vector<vector<vector<string>>> GenerateTable(const map<string, vector<pair<strin
             }
         }
     }
-    for(auto const& iterator : NonTerminalRows)
+    for(const string& NonTerminal : nonTerminalsForFollow)
     {
-        for(const string& Terminal:Follow.getFollowSet(iterator.first))
+        for(const string& Terminal:Follow.getFollowSet(NonTerminal))
         {
-            if(answer[iterator.second][TerminalColumns[Terminal]].empty())
+            if(answer[NonTerminalRows[NonTerminal]][TerminalColumns[Terminal]].empty())
             {
                 vector<string>temp;
                 temp.emplace_back("$");
-                answer[iterator.second][TerminalColumns[Terminal]]=temp;
-            }
-            else
-            {
-                vector<vector<vector<string>>> error;
-                return error;
+                answer[NonTerminalRows[NonTerminal]][TerminalColumns[Terminal]]=temp;
             }
         }
     }

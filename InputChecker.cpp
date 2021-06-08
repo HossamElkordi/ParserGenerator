@@ -3,7 +3,7 @@
 //
 
 #include "InputChecker.h"
-void WriteResult(const string& result, string outPath)
+void WriteResult(const string& result, const string& outPath)
 {
     fstream my_file;
     my_file.open(outPath, ios::out);
