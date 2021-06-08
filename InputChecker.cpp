@@ -15,8 +15,9 @@ void CheckInput(InputLanguageParser* NextToken,vector<string>Terminals,vector<st
 {
     Token token = NextToken->getNextToken();
     map<string,int>NonTerminalRows,TerminalColumns;
-    for(int i=0;i<Terminals.size();++i)
-        TerminalColumns[Terminals.at(i)] = i;
+    TerminalColumns["$"]=0;
+    for(int i=1;i<=Terminals.size();++i)
+        TerminalColumns[Terminals.at(i-1)] = i;
     for(int i=0;i<NonTerminals.size();++i)
         NonTerminalRows[NonTerminals.at(i)] = i;
     stack<string> stack;
@@ -49,13 +50,13 @@ void CheckInput(InputLanguageParser* NextToken,vector<string>Terminals,vector<st
                 token=NextToken->getNextToken();
             }
             //Going to epsilon
-            else if(Table.at(NonTerminalRows[stack.top()]).at(TerminalColumns[token.GetLexeme()])==epsilon)
+            else if(Table[NonTerminalRows[stack.top()]][TerminalColumns[token.GetLexeme()]]==epsilon)
                 stack.pop();
             //Another production
             else
             {
                 stack.pop();
-                for(unsigned int i = Table.at(NonTerminalRows[stack.top()]).at(TerminalColumns[token.GetLexeme()]).size()-1; i >= 0 ; --i)
+                for(int i = Table.at(NonTerminalRows[stack.top()]).at(TerminalColumns[token.GetLexeme()]).size()-1; i >= 0 ; --i)
                     stack.push(Table.at(NonTerminalRows[stack.top()]).at(TerminalColumns[token.GetLexeme()]).at(i));
             }
         }//Top of stack is terminal and not matching
