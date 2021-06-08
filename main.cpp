@@ -113,7 +113,7 @@ int main(int argc, char** argv){
 
 //    Resolve ambiguity in the grammar
     AmbiguitySolver as(&prods, &ters, &nonTers);
-    as.solveLeftFactoring();
+    as.solveLeftRecursion();
     as.solveLeftFactoring();
 
 //    Create the first and follow set for the grammar
