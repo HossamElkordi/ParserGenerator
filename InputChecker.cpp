@@ -55,9 +55,10 @@ void CheckInput(InputLanguageParser* NextToken,vector<string>Terminals,vector<st
             //Another production
             else
             {
+                string LastTop=stack.top();
                 stack.pop();
-                for(int i = Table.at(NonTerminalRows[stack.top()]).at(TerminalColumns[token.GetLexeme()]).size()-1; i >= 0 ; --i)
-                    stack.push(Table.at(NonTerminalRows[stack.top()]).at(TerminalColumns[token.GetLexeme()]).at(i));
+                for(int i = Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetLexeme()]).size()-1; i >= 0 ; --i)
+                    stack.push(Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetLexeme()]).at(i));
             }
         }//Top of stack is terminal and not matching
         else
