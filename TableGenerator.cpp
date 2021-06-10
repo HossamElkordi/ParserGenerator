@@ -3,6 +3,34 @@
 //
 
 #include "TableGenerator.h"
+
+void WriteResult(vector<vector<vector<string>>> table,vector<string>NonTerminal,vector<string>TerminalColumns)
+{
+    fstream my_file;
+    my_file.open("table.txt", ios::out);
+    for(int i=0;i<NonTerminal.size();++i)
+    {
+        my_file << "Non Terminal: "<<NonTerminal.at(i)<<endl;
+        for(int j=0;j<=TerminalColumns.size();++j)
+        {
+            if(j==0)
+                my_file<<"Terminal $ ->";
+            else
+                my_file<<"Terminal "<<TerminalColumns.at(j - 1)<<"->";
+            if(!table[i][j].empty())
+            {
+                for (const string &production:table[i][j])
+                    my_file <<" "<<production<<" ";
+            }
+            else
+                my_file<<" error";
+            my_file<<endl;
+        }
+        my_file<<endl;
+    }
+    my_file.close();
+}
+
 vector<vector<vector<string>>> GenerateTable(const map<string, vector<pair<string, vector<string>>>>& First,  FollowSetGenerator Follow,vector<string>Terminals,vector<string>NonTerminals)
 {
     map<string,int>NonTerminalRows,TerminalColumns;
@@ -49,5 +77,6 @@ vector<vector<vector<string>>> GenerateTable(const map<string, vector<pair<strin
             }
         }
     }
+    WriteResult(answer,NonTerminals,Terminals);
     return answer;
 }
