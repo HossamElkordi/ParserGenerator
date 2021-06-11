@@ -51,9 +51,12 @@ void CheckInput(InputLanguageParser* NextToken,vector<string>Terminals,vector<st
                 stack.pop();
                 for(int i = Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).size()-1; i >= 0 ; --i)
                     stack.push(Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).at(i));
-                for(int i = 0; i < Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).size() ; ++i)
-                    answer+=Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).at(i)+" ";
-                answer+="\n";
+                if(Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).size()>0 && Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).at(0)!="synch")
+                {
+                    for(int i = 0; i < Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).size() ; ++i)
+                        answer+=Table.at(NonTerminalRows[LastTop]).at(TerminalColumns[token.GetType()]).at(i)+" ";
+                    answer+="\n";
+                }
             }
         }//Top of stack is terminal and not matching
         else
