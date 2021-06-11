@@ -48,6 +48,7 @@ vector<vector<vector<string>>> GenerateTable(const map<string, vector<pair<strin
         answer.push_back(temp);
     }
     vector<string>nonTerminalsForFollow;
+    vector<string>NonTerminalsForSynch;
     for (auto const& iterator : First)
     {
         for(const pair<string,vector<string>>& NonTerminalPair:iterator.second)
@@ -57,6 +58,8 @@ vector<vector<vector<string>>> GenerateTable(const map<string, vector<pair<strin
                 answer[NonTerminalRows[iterator.first]][TerminalColumns[NonTerminalPair.first]]=NonTerminalPair.second;
                 if(find(NonTerminalPair.second.begin(),NonTerminalPair.second.end(),"$")!=NonTerminalPair.second.end())
                     nonTerminalsForFollow.push_back(iterator.first);
+                else
+                    NonTerminalsForSynch.push_back(iterator.first);
             }
             else
             {
@@ -73,6 +76,18 @@ vector<vector<vector<string>>> GenerateTable(const map<string, vector<pair<strin
             {
                 vector<string>temp;
                 temp.emplace_back("$");
+                answer[NonTerminalRows[NonTerminal]][TerminalColumns[Terminal]]=temp;
+            }
+        }
+    }
+    for(const string& NonTerminal : NonTerminalsForSynch)
+    {
+        for(const string& Terminal:Follow.getFollowSet(NonTerminal))
+        {
+            if(answer[NonTerminalRows[NonTerminal]][TerminalColumns[Terminal]].empty())
+            {
+                vector<string>temp;
+                temp.emplace_back("synch");
                 answer[NonTerminalRows[NonTerminal]][TerminalColumns[Terminal]]=temp;
             }
         }
